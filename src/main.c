@@ -23,6 +23,7 @@ int		main(int ac, char *av[])
 		if (tcsetattr(0, TCSANOW, &backup) < 0)
 			return (-1);
 	}
-	the_end(av, status);
-	return (0);
+	if (ret == 0)
+		the_end(av, status);
+	return (ret);
 }

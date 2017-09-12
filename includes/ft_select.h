@@ -2,6 +2,7 @@
 # define FT_SELECT_H
 
 # include <sys/ioctl.h>
+# include <sys/stat.h>
 # include <termios.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -45,6 +46,7 @@ int		start_display(int status[], int last, int *dim, t_tc tc);
 int		display_string_array(char *av[], int status[], t_tc tc, int len);
 void	*ft_memset(void *b, int c, size_t len);
 size_t	ft_strlen(char *str);
+void	color(char *file);
 void	the_end(char *av[], int status[]);
 
 #endif

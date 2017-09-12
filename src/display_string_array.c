@@ -10,6 +10,7 @@ static int	appearance(char *array, int status, t_tc tc, int len)
 		tputs(tc.us, 0, termput);
 	if (status & SELECT)
 		tputs(tc.mr, 0, termput);
+	color(array);
 	write(0, array, ft_strlen(array));
 	tputs(tc.ue, 0, termput);
 	write(0, space, len - (int)ft_strlen(array));

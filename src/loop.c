@@ -54,5 +54,5 @@ int			loop(char *av[], int status[], t_tc tc, int	 len)
 		else if (byte == 127)
 			ret = delete(av, status, tc);
 	}
-	return (0);
+	return (ret);
 }
