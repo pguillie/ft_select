@@ -6,6 +6,7 @@ int		main(int ac, char *av[])
 	t_tc			tc;
 	int				status[ac];
 	int				ret;
+	size_t			len;
 
 	if (ac > 1)
 	{
@@ -15,7 +16,8 @@ int		main(int ac, char *av[])
 			return (1);
 		tputs(tc.vi, 0, termput);
 		init_status(status, ac);
-		ret = loop(av, status, tc);
+		len = init_len(av + 1);
+		ret = loop(av, status, tc, len);
 		tputs(tc.ve, 0, termput);
 		tputs(tc.cd, 0, termput);
 		if (tcsetattr(0, TCSANOW, &backup) < 0)

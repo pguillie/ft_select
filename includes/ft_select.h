@@ -11,6 +11,7 @@
 
 # define CURSOR 1
 # define SELECT 2
+# define END 4
 
 # define UP 1
 # define DOWN 2
@@ -34,12 +35,14 @@ typedef struct	s_tc
 int		termcaps(t_tc *tc);
 int		raw(struct termios *get);
 int		init_status(int status[], int ac);
-int		loop(char *av[], int status[], t_tc tc);
+int		init_len(char *av[]);
+int		loop(char *av[], int status[], t_tc tc, int len);
 int		termput(int n);
-void	move(int status[], char move);
+void	move(int status[], char move, int line);
 int		delete(char *av[], int status[], t_tc tc);
 void	selection(int status[]);
-int		display_string_array(char *av[], int status[], t_tc tc);
+int		start_display(int status[], int last, int *dim, t_tc tc);
+int		display_string_array(char *av[], int status[], t_tc tc, int len);
 void	*ft_memset(void *b, int c, size_t len);
 size_t	ft_strlen(char *str);
 void	the_end(char *av[], int status[]);
