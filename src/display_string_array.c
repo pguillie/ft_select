@@ -11,7 +11,10 @@ static int	appearance(char *array, int status, t_tc tc, int len)
 	if (status & SELECT)
 		tputs(tc.mr, 0, termput);
 	if (tc.find[0])
-		find(array, tc.find, status);
+	{
+		if (status & FIND)
+			write(1, (status & SELECT) ? "\e[32;40m" : "\e[43;30m", 8);
+	}
 	else
 		color(array);
 	write(0, array, ft_strlen(array));
@@ -87,7 +90,6 @@ int			display_string_array(char *array[], int status[], t_tc tc, int len)
 		dim[2] = dim[1] * dim[0];
 		dim[0] = (dim[2] - 1) / dim[1] + 1;
 	}
-	dprintf(5, "dim: %d;%d\n", dim[0], dim[1]);//
 	start = start_display(status, start, dim, tc);
 	dim[2] = 0;
 	while (array[start + dim[2]] && dim[2] < dim[1] * dim[0])

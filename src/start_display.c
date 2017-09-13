@@ -19,7 +19,6 @@ int		start_display(int status[], int last, int *dim, t_tc tc)
 		start = cur / dim[1] * dim[1];
 	else if (cur >= last + dim[0] * dim[1])
 		start = cur + dim[1] - 1 - cur % dim[1] + 1 - dim[0] * dim[1];
-	dprintf(5, "cur: %d -- start: %d\n", cur, start);
 	if (start != last)
 		tputs(tc.cd, 0, termput);
 	return (start);

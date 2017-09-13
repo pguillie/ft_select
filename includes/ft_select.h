@@ -12,7 +12,8 @@
 
 # define CURSOR 1
 # define SELECT 2
-# define END 4
+# define FIND 4
+# define END 8
 
 # define UP 1
 # define DOWN 2
@@ -47,8 +48,9 @@ int		start_display(int status[], int last, int *dim, t_tc tc);
 int		display_string_array(char *av[], int status[], t_tc tc, int len);
 void	*ft_memset(void *b, int c, size_t len);
 size_t	ft_strlen(char *str);
-void	find(char *str, char *pattern, int status);
-void	color(char *file);
+void	find(char *av[0], int status[], char *find, char byte);
+void	tab(int status[]);
+void	color(char *str);
 void	the_end(char *av[], int status[]);
 
 #endif

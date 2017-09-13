@@ -11,7 +11,7 @@ static void	disp_col(struct stat s)
 			&& S_IXOTH & s.st_mode)
 		write(1, "\e[43;30m", 8);
 	else if (S_ISDIR(s.st_mode))
-		write(1, "\e[34;01m", 8);
+		write(1, "\e[36;01m", 8);
 	else if (S_ISBLK(s.st_mode))
 		write(1, "\e[46;34m", 8);
 	else if (S_ISCHR(s.st_mode))
@@ -24,7 +24,7 @@ static void	disp_col(struct stat s)
 		write(1, "\e[36m", 5);
 	else if (S_IXUSR & s.st_mode || S_IXGRP & s.st_mode
 			|| S_IXOTH & s.st_mode)
-		write(1, "\e[32m", 5);
+		write(1, "\e[31m", 5);
 }
 
 void		color(char *file)

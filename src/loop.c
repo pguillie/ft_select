@@ -1,12 +1,13 @@
 #include "ft_select.h"
 
-static int	escape(char *av[], int status[], t_tc tc, int line)
+static int	escape(char *av[], int status[], t_tc *tc, int line)
 {
 	char	esc[8];
 	int		i;
 	int		ret;
 
 	ft_memset(esc, 0, 8);
+	ft_memset(tc->find, 0, 128);
 	if (read(0, esc, 1) < 1)
 		return (1);
 	i = 1;
@@ -21,11 +22,21 @@ static int	escape(char *av[], int status[], t_tc tc, int line)
 	if (esc[1] >= 'A' && esc[1] <= 'D' && !esc[2])
 		move(status, 1 << ((esc[1] ^ 64) - 1), line);
 	else if (esc[1] == '3' && esc[2] == '~' && !esc[3])
-		ret = delete(av, status, tc);
+		ret = delete(av, status, *tc);
 	return (ret);
 }
 
-int			loop(char *av[], int status[], t_tc tc, int	 len)
+static void	action(char *av[], int status[], t_tc *tc, int byte)
+{
+	if (byte == ' ')
+		selection(status);
+	else if (byte == '\t')
+		tab(status);
+	else if (byte > ' ' && byte <= 127)
+		find(av, status, tc->find, byte);
+}
+
+int			loop(char *av[], int status[], t_tc tc, int len)
 {
 	char	byte;
 	int		ret;
@@ -48,11 +59,8 @@ int			loop(char *av[], int status[], t_tc tc, int	 len)
 		if (read(0, &byte, 1) < 0)
 			return (-1);
 		if (byte == 27)
-			ret = escape(av, status, tc, line);
-		else if (byte == ' ')
-			selection(status);
-//		else if (byte == 127)
-//			ret = delete(av, status, tc);
+			ret = escape(av, status, &tc, line);
+		action(av, status, &tc, byte);
 	}
 	return (ret);
 }
