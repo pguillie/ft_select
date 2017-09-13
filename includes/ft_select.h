@@ -7,6 +7,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <termcap.h>
+# include <signal.h>
+# include <errno.h>
 
 # include <stdio.h>
 
@@ -18,6 +20,8 @@
 # define DOWN 2
 # define RIGHT 4
 # define LEFT 8
+
+int		g_sig;
 
 typedef struct	s_tc
 {
@@ -34,6 +38,8 @@ typedef struct	s_tc
 	char	*vi;
 }				t_tc;
 
+int		sig_action(void);
+void	sig_init(void);
 int		termcaps(t_tc *tc);
 int		raw(struct termios *get);
 int		init_status(int status[], int ac);

@@ -2,12 +2,13 @@
 
 int		main(int ac, char *av[])
 {
-	struct termios	backup;
-	t_tc			tc;
-	int				status[ac];
-	int				ret;
-	size_t			len;
+	struct termios		backup;
+	t_tc				tc;
+	int					status[ac];
+	int					ret;
+	size_t				len;
 
+	sig_init();
 	if ((ret = 1) && ac > 1)
 	{
 		if (termcaps(&tc))

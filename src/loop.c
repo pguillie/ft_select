@@ -34,10 +34,12 @@ int			loop(char *av[], int status[], t_tc tc, int	 len)
 
 	byte = 1;
 	ret = 0;
-	while (byte != '\n' && !ret)
+	while (byte != '\n' && !ret && g_sig != SIGINT && g_sig != SIGQUIT)
 	{
-		if (byte)
+		if (byte || g_sig == SIGWINCH || g_sig == SIGCONT)
 		{
+			g_sig = 0;
+			tputs(tc.cd, 0, termput);
 			line = display_string_array(av + 1, status + 1, tc, len);
 			i = 0;
 			while (i++ < line - 1)
@@ -45,14 +47,12 @@ int			loop(char *av[], int status[], t_tc tc, int	 len)
 		}
 		write(0, "\r", 1);
 		byte = 0;
-		if (read(0, &byte, 1) < 0)
-			return (-1);
+		if (read(0, &byte, 1) < 0 && errno != EINTR)
+			return (42);
 		if (byte == 27)
 			ret = escape(av, status, tc, line);
 		else if (byte == ' ')
 			selection(status);
-//		else if (byte == 127)
-//			ret = delete(av, status, tc);
 	}
 	return (ret);
 }
