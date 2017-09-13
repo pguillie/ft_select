@@ -51,8 +51,8 @@ int			loop(char *av[], int status[], t_tc tc, int	 len)
 			ret = escape(av, status, tc, line);
 		else if (byte == ' ')
 			selection(status);
-		else if (byte == 127)
-			ret = delete(av, status, tc);
+//		else if (byte == 127)
+//			ret = delete(av, status, tc);
 	}
 	return (ret);
 }

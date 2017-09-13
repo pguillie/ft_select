@@ -21,6 +21,7 @@
 
 typedef struct	s_tc
 {
+	char	find[128];
 	char	data[2048];
 	char	buff[2048];
 	char	*cd;
@@ -46,6 +47,7 @@ int		start_display(int status[], int last, int *dim, t_tc tc);
 int		display_string_array(char *av[], int status[], t_tc tc, int len);
 void	*ft_memset(void *b, int c, size_t len);
 size_t	ft_strlen(char *str);
+void	find(char *str, char *pattern, int status);
 void	color(char *file);
 void	the_end(char *av[], int status[]);
 

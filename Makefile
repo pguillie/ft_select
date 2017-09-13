@@ -24,7 +24,6 @@ all: $(NAME)
 $(NAME): obj $(OBJECTS)
 	$(CC) -o $@ $(OBJECTS) $(TERMCAP)
 	@ echo "$(GREEN)[$@]: binary successfully created !$(EOC)"
-	@ echo "\n\n\tET J'AI FAIT LES COULEURS ! JE BOSSE PLUS JVOUS BAIZ !"
 
 obj/%.o: src/%.c $(HEADERS)
 	$(eval FILE=$(shell echo $$(($(FILE) + 1))))

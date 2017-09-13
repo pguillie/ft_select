@@ -8,7 +8,7 @@ int		main(int ac, char *av[])
 	int				ret;
 	size_t			len;
 
-	if (ac > 1)
+	if ((ret = 1) && ac > 1)
 	{
 		if (termcaps(&tc))
 			return (1);
@@ -22,8 +22,8 @@ int		main(int ac, char *av[])
 		tputs(tc.cd, 0, termput);
 		if (tcsetattr(0, TCSANOW, &backup) < 0)
 			return (-1);
+		if (ret == 0)
+			the_end(av, status);
 	}
-	if (ret == 0)
-		the_end(av, status);
 	return (ret);
 }
