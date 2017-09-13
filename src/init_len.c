@@ -6,7 +6,7 @@ int			init_len(char *av[])
 	int		i;
 
 	i = 0;
-	len = 1;
+	len = 3;
 	while (av[i])
 	{
 		if ((int)ft_strlen(av[i]) + 1 > len)

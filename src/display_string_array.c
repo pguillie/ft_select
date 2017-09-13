@@ -51,7 +51,12 @@ static void	display_complex(char *array[], int dim[], int status[], t_tc tc)
 	while (i[0] < dim[2])
 	{
 		mr = 0;
-		mr = appearance(array[i[1]], status[i[1]], tc, dim[3]);
+		if (!(status[i[1]] & CURSOR)
+				&& ((i[0] == 0 && status[i[0] - 1] != status[i[0] - dim[5] - 1])
+				|| (i[0] == (dim[2] - 1) && !(status[i[0]] & END))))
+			mr = appearance("...", 0, tc, dim[3] + 1);
+		else
+			mr = appearance(array[i[1]], status[i[1]], tc, dim[3]);
 		if (col++ < dim[0] && i[1] + dim[4] < dim[2])
 		{
 			write(0, space, dim[3] - ft_strlen(array[i[1]]) - mr);
@@ -70,7 +75,7 @@ static void	display_complex(char *array[], int dim[], int status[], t_tc tc)
 int			display_string_array(char *array[], int status[], t_tc tc, int len)
 {
 	struct winsize	w;
-	int				dim[5];
+	int				dim[6];
 	static int		start = 0;
 
 	if (!array)
@@ -95,6 +100,7 @@ int			display_string_array(char *array[], int status[], t_tc tc, int len)
 	while (array[start + dim[2]] && dim[2] < dim[1] * dim[0])
 		dim[2]++;
 	dim[4] = ((start ? dim[0] * dim[1] : dim[2]) - 1) / dim[0] + 1;
+	dim[5] = start;
 	display_complex(array + start, dim, status + start, tc);
 	return (dim[1]);
 }
