@@ -58,5 +58,8 @@ void	selection(int status[])
 	while (!(status[cur] & CURSOR))
 		cur++;
 	status[cur] = ~(status[cur] ^ ~SELECT);
-	move(status, DOWN, 0);
+	if (status[cur] & FIND)
+		tab(status);
+	else
+		move(status, DOWN, 0);
 }
