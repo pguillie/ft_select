@@ -8,7 +8,7 @@ static int	escape(char *av[], int status[], t_tc *tc, int line)
 
 	ft_memset(esc, 0, 8);
 	ft_memset(tc->find, 0, 128);
-	if (read(0, esc, 1) < 1)
+	if (read(0, esc, 1) < 1 && errno != EINTR)
 		return (1);
 	i = 1;
 	ret = 0;
@@ -38,15 +38,27 @@ static void	action(char *av[], int status[], t_tc *tc, int byte)
 
 int			loop(char *av[], int status[], t_tc tc, int len)
 {
-	char	byte;
-	int		ret;
-	int		line;
-	int		i;
+	struct termios	backup;
+	char			byte;
+	int				ret;
+	int				line;
+	int				i;
 
 	byte = 1;
 	ret = 0;
-	while (byte != '\n' && !ret && g_sig != SIGINT && g_sig != SIGQUIT)
+	while (byte != '\n' && !ret)
 	{
+		if (g_sig == SIGCONT)
+		{
+			
+		}
+		if (g_sig == SIGTERM || g_sig == SIGINT || g_sig == SIGQUIT)
+		{
+			tputs(tc.cd, 0, termput);
+			return (g_sig);
+		}
+		if (g_sig == SIGTSTP)
+			return (g_sig);
 		if (byte || g_sig == SIGWINCH || g_sig == SIGCONT)
 		{
 			g_sig = 0;
@@ -59,7 +71,7 @@ int			loop(char *av[], int status[], t_tc tc, int len)
 		write(0, "\r", 1);
 		byte = 0;
 		if (read(0, &byte, 1) < 0 && errno != EINTR)
-			return (42);
+			return (-1);
 		if (byte == 27)
 			ret = escape(av, status, &tc, line);
 		action(av, status, &tc, byte);
