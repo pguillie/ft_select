@@ -21,9 +21,13 @@ EOC		= \033[0m
 
 all: $(NAME)
 
-$(NAME): obj $(OBJECTS)
+$(NAME): obj libft $(OBJECTS)
 	$(CC) -o $@ $(OBJECTS) $(TERMCAP)
 	@ echo "$(GREEN)[$@]: binary successfully created !$(EOC)"
+
+libft:
+	@ echo "$(GREEN)Compiling libft.a ...$(EOC)"
+	@ echo "$(RED)OMG ! libft.a not found ! This guy is awesome !$(EOC)"
 
 obj/%.o: src/%.c $(HEADERS)
 	$(eval FILE=$(shell echo $$(($(FILE) + 1))))

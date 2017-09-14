@@ -26,16 +26,30 @@ static int	appearance(char *array, int status, t_tc tc, int len)
 	return (len < l ? 0 : len - l);
 }
 
+static void	disp_write(char *str, int dim[], int i[], int mr)
+{
+	char		space[1024];
+
+	ft_memset(space, ' ', 1024);
+	if (i[3]++ < dim[0] && i[1] + dim[4] < dim[2])
+	{
+		write(0, space, dim[3] - ft_strlen(str) - mr);
+		i[1] += dim[4];
+	}
+	else if (i[0] != dim[2] - 1)
+	{
+		write(0, "\r\n", 2);
+		i[1] = ++i[2];
+		i[3] = 1;
+	}
+}
+
 static int	display_complex(char *array[], int dim[], int status[], t_tc tc)
 {
-	char			space[1024];
-	int				i[3];
-	int				col;
+	int				i[4];
 	int				mr;
 
-	ft_memset(i, 0, 3 * sizeof(int));
-	ft_memset(space, ' ', 1024);
-	col = 0;
+	ft_memset(i, 0, 4 * sizeof(int));
 	while (i[0] < dim[2])
 	{
 		mr = 0;
@@ -45,20 +59,17 @@ static int	display_complex(char *array[], int dim[], int status[], t_tc tc)
 			mr = appearance("...", 0, tc, dim[3] + 1);
 		else
 			mr = appearance(array[i[1]], status[i[1]], tc, dim[3]);
-		if (col++ < dim[0] && i[1] + dim[4] < dim[2])
-		{
-			write(0, space, dim[3] - ft_strlen(array[i[1]]) - mr);
-			i[1] += dim[4];
-		}
-		else if (i[0] != dim[2] - 1)
-		{
-			write(0, "\r\n", 2);
-			i[1] = ++i[2];
-			col = 1;
-		}
+		disp_write(array[i[1]], dim, i, mr);
 		i[0]++;
 	}
 	return (i[2] + 1);
+}
+
+static void	disp_norminette(int dim[], int row)
+{
+	dim[1] = row - 1;
+	dim[2] = dim[1] * dim[0];
+	dim[0] = (dim[2] - 1) / dim[1] + 1;
 }
 
 int			display_string_array(char *array[], int status[], t_tc tc, int len)
@@ -79,11 +90,7 @@ int			display_string_array(char *array[], int status[], t_tc tc, int len)
 		: dim[2];
 	dim[0] = (dim[2] - 1) / dim[1] + 1;
 	if (dim[1] > w.ws_row - 1)
-	{
-		dim[1] = w.ws_row - 1;
-		dim[2] = dim[1] * dim[0];
-		dim[0] = (dim[2] - 1) / dim[1] + 1;
-	}
+		disp_norminette(dim, w.ws_row);
 	start = start_display(status, start, dim, tc);
 	dim[2] = 0;
 	while (array[start + dim[2]] && dim[2] < dim[1] * dim[0])

@@ -5,16 +5,6 @@ static void	handler(int sig)
 	g_sig = sig;
 }
 
-void		sig_tstp(void)
-{
-	struct sigaction	tstp;
-
-	ft_memset(&tstp, 0, sizeof(tstp));
-	tstp.sa_handler = SIG_DFL;
-	sigaction(SIGTSTP, &tstp, 0);
-	ioctl(0, TIOCSTI, "\032");
-}
-
 void		init_sig(void)
 {
 	struct sigaction	act;
