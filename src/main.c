@@ -11,7 +11,10 @@ int		main(int ac, char *av[])
 	if ((ret = 1) && ac > 1)
 	{
 		if (termcaps(&tc))
+		{
+			write(2, "Termcaps not available :(\n", 26);
 			return (1);
+		}
 		init_status(status, ac);
 		len = init_len(av + 1);
 		g_sig = SIGCONT;

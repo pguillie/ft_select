@@ -15,9 +15,7 @@ int			termcaps(t_tc *init)
 	if (!(termtype = getenv("TERM")))
 		return (1);
 	success = tgetent(init->data, termtype);
-	if (success < 0)
-		return (1);
-	else if (success == 0)
+	if (success <= 0)
 		return (1);
 	ft_memset(init->buff, 0, 2048);
 	if (init_tc(init, &init->cd, "cd")
