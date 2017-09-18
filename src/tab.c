@@ -13,7 +13,8 @@ void	tab(int status[])
 	{
 		if (next == status[0])
 			next = 1;
-		next += 1;
+		else
+			next += 1;
 	}
 	status[cur] ^= CURSOR;
 	status[next] |= CURSOR;
