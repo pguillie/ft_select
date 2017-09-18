@@ -21,7 +21,7 @@ EOC		= \033[0m
 
 all: $(NAME)
 
-$(NAME): obj libft $(OBJECTS)
+$(NAME): obj $(OBJECTS)
 	$(CC) -o $@ $(OBJECTS) $(TERMCAP)
 	@ echo "$(GREEN)[$@]: binary successfully created !$(EOC)"
 

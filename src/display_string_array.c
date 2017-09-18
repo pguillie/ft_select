@@ -15,7 +15,7 @@ static int	appearance(char *array, int status, t_tc tc, int len)
 	if (tc.find[0])
 	{
 		if (status & FIND)
-			write(1, (status & SELECT) ? "\e[32;40m" : "\e[43;30m", 8);
+			write(0, (status & SELECT) ? "\e[32;40m" : "\e[43;30m", 8);
 	}
 	else
 		color(array);
