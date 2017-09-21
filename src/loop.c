@@ -8,7 +8,7 @@ static int	escape(char *av[], int status[], t_tc *tc, int line)
 
 	ft_memset(esc, 0, 8);
 	ft_memset(tc->find, 0, 128);
-	if (read(0, esc, 1) < 1 && errno != EINTR)
+	if (read(0, esc, 1) < 1)
 		return (1);
 	i = 1;
 	ret = 0;
@@ -43,6 +43,8 @@ static int	sigloop(struct termios *backup, t_tc tc)
 	ret = 0;
 	if ((g_sig == SIGTSTP || g_sig == SIGQUIT) && restore(*backup, tc) < 0)
 		ret = -1;
+	else if (g_sig == SIGTERM || g_sig == SIGINT)
+		ret = g_sig;
 	else if (g_sig == SIGCONT)
 	{
 		if (raw(backup) < 0)
@@ -53,8 +55,6 @@ static int	sigloop(struct termios *backup, t_tc tc)
 			ret = 0;
 		}
 	}
-	else if (g_sig == SIGTERM || g_sig == SIGINT)
-		ret = g_sig;
 	return (ret);
 }
 
@@ -89,7 +89,7 @@ int			loop(char *av[], int status[], t_tc tc, int len)
 			loopup(line, tc);
 		}
 		byte = 0;
-		if (read(0, &byte, 1) < 0 && errno != EINTR)
+		if (read(0, &byte, 1) < 0)
 			return (-1);
 		if (byte == 27)
 			ret = escape(av, status, &tc, line);
