@@ -80,8 +80,8 @@ int			display_string_array(char *array[], int status[], t_tc tc, int len)
 
 	if (!array)
 		return (0);
-	if (ioctl(0, TIOCGWINSZ, &w) < 0 || w.ws_col < 4 || w.ws_row < 4)
-		return (0);
+	if (ioctl(0, TIOCGWINSZ, &w) < 0 || w.ws_col < len || w.ws_row < 10)
+		return (-1);
 	dim[2] = 0;
 	dim[3] = len > w.ws_col ? w.ws_col : len;
 	while (array[dim[2]])

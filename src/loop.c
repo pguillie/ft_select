@@ -63,7 +63,8 @@ static void	loopup(int line, t_tc tc)
 	int		i;
 
 	i = 0;
-	g_sig = 0;
+	if (g_sig != SIGTSTP)
+		g_sig = 0;
 	while (i++ < line - 1)
 		tputs(tc.up, 0, termput);
 	write(0, "\r", 1);
@@ -85,11 +86,11 @@ int			loop(char *av[], int status[], t_tc tc, int len)
 		if (byte || g_sig == SIGWINCH || g_sig == SIGCONT)
 		{
 			tputs(tc.cd, 0, termput);
-			line = display_string_array(av + 1, status + 1, tc, len);
+			if ((line = display_string_array(av + 1, status + 1, tc, len)) < 0)
+				g_sig = SIGTSTP;
 			loopup(line, tc);
 		}
-		byte = 0;
-		if (read(0, &byte, 1) < 0)
+		if (!(byte = 0) && read(0, &byte, 1) < 0)
 			return (-1);
 		if (byte == 27)
 			ret = escape(av, status, &tc, line);
