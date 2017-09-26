@@ -33,7 +33,7 @@ int		delete(char *av[], int status[], t_tc tc)
 	int	cur;
 	int	i;
 
-	tputs(tc.cd, 0, termput);
+	tputs(tc.cd, 0, term);
 	cur = 1;
 	while (!(status[cur] & CURSOR))
 		cur++;

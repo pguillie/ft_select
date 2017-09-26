@@ -4,8 +4,8 @@ int		restore(struct termios backup, t_tc tc)
 {
 	int	i;
 
-	tputs(tc.cd, 0, termput);
-	tputs(tc.ve, 0, termput);
+	tputs(tc.cd, 0, term);
+	tputs(tc.ve, 0, term);
 	if (tcsetattr(0, TCSANOW, &backup) < 0)
 		return (-1);
 	if (g_sig == SIGTSTP || g_sig == SIGQUIT)

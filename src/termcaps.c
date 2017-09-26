@@ -25,6 +25,8 @@ int			termcaps(t_tc *init)
 			|| init_tc(init, &init->up, "up")
 			|| init_tc(init, &init->us, "us")
 			|| init_tc(init, &init->ve, "ve")
+			|| init_tc(init, &init->ti, "ti")
+			|| init_tc(init, &init->te, "te")
 			|| init_tc(init, &init->vi, "vi"))
 		return (1);
 	return (0);

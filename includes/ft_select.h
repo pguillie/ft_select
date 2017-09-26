@@ -36,6 +36,8 @@ typedef struct	s_tc
 	char	*up;
 	char	*us;
 	char	*ve;
+	char	*ti;
+	char	*te;
 	char	*vi;
 }				t_tc;
 
@@ -48,7 +50,7 @@ void			init_sig(void);
 int				init_status(int status[], int ac);
 int				init_len(char *av[]);
 int				loop(char *av[], int status[], t_tc tc, int len);
-int				termput(int n);
+int				term(int n);
 void			move(int status[], char move, int line);
 int				delete(char *av[], int status[], t_tc tc);
 void			selection(int status[]);

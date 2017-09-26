@@ -51,7 +51,7 @@ static int	sigloop(struct termios *backup, t_tc tc)
 			ret = -1;
 		else
 		{
-			tputs(tc.vi, 0, termput);
+			tputs(tc.vi, 0, term);
 			ret = 0;
 		}
 	}
@@ -66,7 +66,7 @@ static void	loopup(int line, t_tc tc)
 	if (g_sig != SIGTSTP)
 		g_sig = 0;
 	while (i++ < line - 1)
-		tputs(tc.up, 0, termput);
+		tputs(tc.up, 0, term);
 	write(0, "\r", 1);
 }
 
@@ -85,7 +85,7 @@ int			loop(char *av[], int status[], t_tc tc, int len)
 			return (-1);
 		if (byte || g_sig == SIGWINCH || g_sig == SIGCONT)
 		{
-			tputs(tc.cd, 0, termput);
+			g_sig == SIGWINCH ? tputs(tc.ti, 0, term) : tputs(tc.cd, 0, term);
 			if ((line = display_string_array(av + 1, status + 1, tc, len)) < 0)
 				g_sig = SIGTSTP;
 			loopup(line, tc);

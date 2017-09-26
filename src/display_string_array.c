@@ -11,7 +11,7 @@ static int	appearance(char *array, int status, t_tc tc, int len)
 	if (status & CURSOR)
 		write(0, "\e[3;4m", 6);
 	if (status & SELECT)
-		tputs(tc.mr, 0, termput);
+		tputs(tc.mr, 0, term);
 	if (tc.find[0])
 	{
 		if (status & FIND)
@@ -20,9 +20,9 @@ static int	appearance(char *array, int status, t_tc tc, int len)
 	else
 		color(array);
 	write(0, array, len < l ? len : l);
-	tputs(tc.ue, 0, termput);
+	tputs(tc.ue, 0, term);
 	write(0, space, len < l ? 0 : len - l);
-	tputs(tc.me, 0, termput);
+	tputs(tc.me, 0, term);
 	return (len < l ? 0 : len - l);
 }
 

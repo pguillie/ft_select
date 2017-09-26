@@ -1,6 +1,6 @@
 #include "ft_select.h"
 
-int		termput(int n)
+int		term(int n)
 {
 	char	c;
 

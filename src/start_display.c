@@ -25,6 +25,6 @@ int		start_display(int status[], int last, int *dim, t_tc tc)
 				+ (cur < last_col ? dim[1] : 0);
 	}
 	if (start != last)
-		tputs(tc.cd, 0, termput);
+		tputs(tc.cd, 0, term);
 	return (start);
 }
