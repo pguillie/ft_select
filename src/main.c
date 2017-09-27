@@ -18,8 +18,7 @@ int		main(int ac, char *av[])
 		init_status(status, ac);
 		len = init_len(av + 1);
 		g_sig = SIGCONT;
-		ret = loop(av, status, tc, len);
-		tputs(tc.te, 0, term);
+		ret = loop(av, status, &tc, len);
 		if (ret == 0)
 			the_end(av, status);
 	}

@@ -72,12 +72,13 @@ static void	disp_norminette(int dim[], int row)
 	dim[0] = (dim[2] - 1) / dim[1] + 1;
 }
 
-int			display_string_array(char *array[], int status[], t_tc tc, int len)
+int			display_string_array(char *array[], int status[], t_tc *tc, int len)
 {
 	struct winsize	w;
 	int				dim[6];
 	static int		start = 0;
 
+	ft_ti_norme(tc);
 	if (!array)
 		return (0);
 	if (ioctl(0, TIOCGWINSZ, &w) < 0 || w.ws_col < len || w.ws_row < 10)
@@ -91,11 +92,11 @@ int			display_string_array(char *array[], int status[], t_tc tc, int len)
 	dim[0] = (dim[2] - 1) / dim[1] + 1;
 	if (dim[1] > w.ws_row - 1)
 		disp_norminette(dim, w.ws_row);
-	start = start_display(status, start, dim, tc);
+	start = start_display(status, start, dim, *tc);
 	dim[2] = 0;
 	while (array[start + dim[2]] && dim[2] < dim[1] * dim[0])
 		dim[2]++;
 	dim[4] = ((start ? dim[0] * dim[1] : dim[2]) - 1) / dim[0] + 1;
 	dim[5] = start;
-	return (display_complex(array + start, dim, status + start, tc));
+	return (display_complex(array + start, dim, status + start, *tc));
 }

@@ -36,7 +36,7 @@ static void	action(char *av[], int status[], t_tc *tc, int byte)
 		find(av, status, tc->find, byte);
 }
 
-static int	sigloop(struct termios *backup, t_tc tc)
+static int	sigloop(struct termios *backup, t_tc *tc)
 {
 	int		ret;
 
@@ -51,7 +51,7 @@ static int	sigloop(struct termios *backup, t_tc tc)
 			ret = -1;
 		else
 		{
-			tputs(tc.vi, 0, term);
+			tputs(tc->vi, 0, term);
 			ret = 0;
 		}
 	}
@@ -70,7 +70,7 @@ static void	loopup(int line, t_tc tc)
 	write(0, "\r", 1);
 }
 
-int			loop(char *av[], int status[], t_tc tc, int len)
+int			loop(char *av[], int status[], t_tc *tc, int len)
 {
 	struct termios	backup;
 	char			byte;
@@ -85,16 +85,16 @@ int			loop(char *av[], int status[], t_tc tc, int len)
 			return (-1);
 		if (byte || g_sig == SIGWINCH || g_sig == SIGCONT)
 		{
-			g_sig == SIGWINCH ? tputs(tc.ti, 0, term) : tputs(tc.cd, 0, term);
+			tputs(tc->cd, 0, term);
 			if ((line = display_string_array(av + 1, status + 1, tc, len)) < 0)
 				g_sig = SIGTSTP;
-			loopup(line, tc);
+			loopup(line, *tc);
 		}
 		if (!(byte = 0) && read(0, &byte, 1) < 0)
 			return (-1);
 		if (byte == 27)
-			ret = escape(av, status, &tc, line);
-		action(av, status, &tc, byte);
+			ret = escape(av, status, tc, line);
+		action(av, status, tc, byte);
 	}
 	return (restore(backup, tc) < 0 ? -1 : ret);
 }

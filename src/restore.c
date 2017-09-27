@@ -1,11 +1,25 @@
 #include "ft_select.h"
 
-int		restore(struct termios backup, t_tc tc)
+void	ft_ti_norme(t_tc *tc)
+{
+	if (g_sig == SIGWINCH && tc->stat == 0)
+	{
+		tc->stat = 1;
+		tputs(tc->ti, 0, term);
+	}
+}
+
+int		restore(struct termios backup, t_tc *tc)
 {
 	int	i;
 
-	tputs(tc.cd, 0, term);
-	tputs(tc.ve, 0, term);
+	if (tc->stat == 1)
+	{
+		tputs(tc->te, 0, term);
+		tc->stat = 0;
+	}
+	tputs(tc->cd, 0, term);
+	tputs(tc->ve, 0, term);
 	if (tcsetattr(0, TCSANOW, &backup) < 0)
 		return (-1);
 	if (g_sig == SIGTSTP || g_sig == SIGQUIT)
@@ -15,7 +29,6 @@ int		restore(struct termios backup, t_tc tc)
 			i++;
 		signal(SIGTSTP, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		tputs(tc.te, 0, term);
 		ioctl(0, TIOCSTI, g_sig == SIGTSTP ? "\032" : "\034");
 		init_sig();
 	}
