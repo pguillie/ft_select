@@ -2,7 +2,7 @@
 
 void	ft_ti_norme(t_tc *tc)
 {
-	if (g_sig == SIGWINCH && tc->stat == 0)
+	if (g_sig == SIGWINCH)
 	{
 		tc->stat = 1;
 		tputs(tc->ti, 0, term);
