@@ -15,6 +15,7 @@ int		restore(struct termios backup, t_tc tc)
 			i++;
 		signal(SIGTSTP, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
+		tputs(tc.te, 0, term);
 		ioctl(0, TIOCSTI, g_sig == SIGTSTP ? "\032" : "\034");
 		init_sig();
 	}

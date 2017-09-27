@@ -19,6 +19,7 @@ int		main(int ac, char *av[])
 		len = init_len(av + 1);
 		g_sig = SIGCONT;
 		ret = loop(av, status, tc, len);
+		tputs(tc.te, 0, term);
 		if (ret == 0)
 			the_end(av, status);
 	}
