@@ -4,8 +4,13 @@ void	ft_ti_norme(t_tc *tc)
 {
 	if (g_sig == SIGWINCH)
 	{
-		tc->stat = 1;
-		tputs(tc->ti, 0, term);
+		if (tc->stat)
+			tputs(tc->cl, 0, term);
+		else
+		{
+			tc->stat = 1;
+			tputs(tc->ti, 0, term);
+		}
 	}
 }
 

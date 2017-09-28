@@ -20,6 +20,7 @@ int			termcaps(t_tc *init)
 	ft_memset(init->buff, 0, 2048);
 	init->stat = 0;
 	if (init_tc(init, &init->cd, "cd")
+			|| init_tc(init, &init->cl, "cl")
 			|| init_tc(init, &init->me, "me")
 			|| init_tc(init, &init->mr, "mr")
 			|| init_tc(init, &init->ue, "ue")

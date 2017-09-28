@@ -46,8 +46,8 @@ static void	disp_write(char *str, int dim[], int i[], int mr)
 
 static int	display_complex(char *array[], int dim[], int status[], t_tc tc)
 {
-	int				i[4];
-	int				mr;
+	int	i[4];
+	int	mr;
 
 	ft_memset(i, 0, 4 * sizeof(int));
 	while (i[0] < dim[2])
@@ -56,10 +56,15 @@ static int	display_complex(char *array[], int dim[], int status[], t_tc tc)
 		if (!(status[i[1]] & CURSOR)
 				&& ((i[0] == 0 && status[i[0] - 1] != status[i[0] - dim[5] - 1])
 				|| (i[0] == (dim[2] - 1) && !(status[i[0]] & END))))
+		{
 			mr = appearance("...", 0, tc, dim[3] + 1);
+			disp_write("...", dim, i, mr);
+		}
 		else
+		{
 			mr = appearance(array[i[1]], status[i[1]], tc, dim[3]);
-		disp_write(array[i[1]], dim, i, mr);
+			disp_write(array[i[1]], dim, i, mr);
+		}
 		i[0]++;
 	}
 	return (i[2] + 1);

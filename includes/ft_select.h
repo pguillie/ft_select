@@ -30,6 +30,7 @@ typedef struct	s_tc
 	char	data[2048];
 	char	buff[2048];
 	char	*cd;
+	char	*cl;
 	char	*me;
 	char	*mr;
 	char	*ue;
